@@ -8,6 +8,8 @@ Vue.config.productionTip = false
 
 App.mpType = 'app'
 
+Vue.prototype.$baseurl = "http://192.168.2.2:7001"
+
 
 Vue.mixin({
 	data() {

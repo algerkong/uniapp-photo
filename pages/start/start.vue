@@ -27,12 +27,7 @@
 			}
 		},
 		onLoad() {
-			let token = uni.getStorageSync('token')
-			if(token){
-				uni.redirectTo({
-					url:'../index/index'
-				})
-			}
+			
 		},
 		methods: {
 			

@@ -6,7 +6,7 @@ const http = new Request({
 	timeout: 30000, //超时时长5分钟,
 })
 
-//请求拦截器
+//请求拦截器 
 http.interceptors.request.use((config) => { // 可使用async await 做异步操作
 	const token = uni.getStorageSync('token');
 	if (token!=null&&token!=""&&token!=undefined) {

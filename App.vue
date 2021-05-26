@@ -1,6 +1,12 @@
 <script>
 	export default {
 		onLaunch: function() {
+			const token = uni.getStorageSync('token');
+			if (!token) {
+				uni.reLaunch({
+					url:'pages/start/start'
+				})
+			}
 		},
 		onShow: function() {
 			console.log('App Show')
