@@ -68,7 +68,7 @@
 				})
 			},
 			toStart(){
-				uni.redirectTo({
+				uni.switchTab({
 					url:'../start/start'
 				})
 			},

@@ -6,10 +6,18 @@
 				uni.reLaunch({
 					url:'pages/start/start'
 				})
+			}else{
+				uni.switchTab({
+					url:'pages/index/index'
+				})
 			}
+			// uni.hideTabBar()
 		},
 		onShow: function() {
 			console.log('App Show')
+			uni.hideTabBar({success(res) {
+				console.log(res,'hide')
+			}})
 		},
 		onHide: function() {
 			console.log('App Hide')

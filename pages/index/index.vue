@@ -7,7 +7,7 @@
 				<view class="new-page">
 					<view class="new-item" v-for="item in dayList" :key="item.id">
 						<view class="new-img">
-							<u-image width="100%" mode="widthFix" :src="$baseurl + item.imgs[0].src"/>
+							<u-image height="100%" mode="heightFix" :src="$baseurl + item.imgs[0].src"/>
 						</view>
 						<view class="new-user">
 							<u-image width="70rpx" height="70rpx" mode="heightFix" :src="$baseurl + item.user.avatar"
@@ -20,9 +20,9 @@
 					</view>
 				</view>
 			</scroll-view>
-
 		</view>
 		
+		<u-tabbar :list="tabbar" ></u-tabbar>
 		<u-no-network></u-no-network>
 	</view>
 </template>
@@ -36,11 +36,17 @@
 					page:1,
 					count:10
 				},
-				dayList:null
+				dayList:null,
+				// tabbar:''
 			}
 		},
 		onLoad() {
 			this.getList()
+		},
+		computed:{
+			tabbar(){
+				return this.$store.state.tabbar
+			}
 		},
 		methods: {
 			getList(){

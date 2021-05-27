@@ -2,7 +2,9 @@ import Vue from 'vue'
 import App from './App'
 import uView from "uview-ui";
 Vue.use(uView);
-
+//引入vuex
+import store from './store'
+Vue.prototype.$store = store
 
 Vue.config.productionTip = false
 
@@ -44,6 +46,7 @@ Vue.mixin({
 })
 
 const app = new Vue({
-	...App
+	store,
+	...App,
 })
 app.$mount()
