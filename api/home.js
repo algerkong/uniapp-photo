@@ -4,6 +4,10 @@ export function getDayDynamic(params) {
 	return request.get("/api/home/daydynamic",{params})
 }
 
+export function getImgList(params){
+	return request.post("/api/img",{},{params:params})
+}
+
 // export function getDynamic(params) {
 //   return request({
 //     url: '/api/dynamic',

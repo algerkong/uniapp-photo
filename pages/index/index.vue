@@ -3,60 +3,84 @@
 		<view class="title">发现</view>
 		<view class="title-small">今日推荐</view>
 		<view class="new-list">
-			<scroll-view class="scroll-view_H" scroll-x="true" scroll-left="120">
-				<view class="new-page">
-					<view class="new-item" v-for="item in dayList" :key="item.id">
-						<view class="new-img">
-							<u-image height="100%" mode="heightFix" :src="$baseurl + item.imgs[0].src"/>
+			<swiper class="new-swiper" >
+				<swiper-item  v-for="(item,index) in dayList" :key="item.id">
+					<view class="new-item">
+						<view class="new-img" @click="showImgs(index)">
+							<u-image height="100%" mode="heightFix" :src="$baseurl + item.imgs[0].src" />
 						</view>
 						<view class="new-user">
-							<u-image width="70rpx" height="70rpx" mode="heightFix" :src="$baseurl + item.user.avatar"
-								shape="circle"></u-image>
+							<u-image  width="70rpx" height="70rpx" mode="heightFix"
+								:src="$baseurl + item.user.avatar" shape="circle"></u-image>
 							<view class="new-user-text">
 								<view class="user-nickname">{{item.user.nickName}}</view>
 								<view class="user-name">@{{item.user.username}}</view>
 							</view>
+							<view class="new-user-time">
+								{{item.createdAt}}
+							</view>
 						</view>
 					</view>
-				</view>
-			</scroll-view>
+				</swiper-item>
+			</swiper>
 		</view>
-		
-		<u-tabbar :list="tabbar" ></u-tabbar>
+		<u-tabbar :list="tabbar"></u-tabbar>
 		<u-no-network></u-no-network>
 	</view>
 </template>
 
 <script>
-	import {getDayDynamic} from "@/api/home.js"
+	import {
+		getDayDynamic
+	} from "@/api/home.js"
 	export default {
 		data() {
 			return {
-				query:{
-					page:1,
-					count:10
+				query: {
+					page: 1,
+					count: 10
 				},
-				dayList:null,
+				dayList: null,
 				// tabbar:''
 			}
 		},
 		onLoad() {
 			this.getList()
 		},
-		computed:{
-			tabbar(){
+		computed: {
+			tabbar() {
 				return this.$store.state.tabbar
 			}
 		},
 		methods: {
-			getList(){
-				getDayDynamic(this.query).then(res=>{
+			getList() {
+				getDayDynamic(this.query).then(res => {
 					this.dayList = res.data.data.list
 					console.log(this.dayList)
-					
+
 					console.log(this.dayList[0].imgs[0].src)
 				})
 			},
+			showImgs(index) {
+				let urls = []
+				this.dayList[index].imgs.forEach(e => {
+					urls.push(this.$baseurl+e.src)
+				})
+				uni.previewImage({
+					current:0,
+					urls: urls,
+					indicator:"default",
+					longPressActions: {
+						itemList: ['发送给朋友', '保存图片', '收藏'],
+						success: function(data) {
+							console.log('选中了第' + (data.tapIndex + 1) + '个按钮,第' + (data.index + 1) + '张图片');
+						},
+						fail: function(err) {
+							console.log(err.errMsg);
+						}
+					}
+				})
+			}
 		}
 	}
 </script>
@@ -85,18 +109,17 @@
 				height: 1000rpx;
 			}
 
-			.new-page {
-				display: flex;
-				width: 6900rpx;
+			.new-swiper{
+				height: 800rpx;
 			}
 
 			.new-item {
 				width: 690rpx;
 				float: left;
-				
-				.new-img{
+
+				.new-img {
 					width: 100%;
-					height: 800rpx;
+					height: 700rpx;
 					overflow: hidden;
 					display: flex;
 					align-items: center;
@@ -109,6 +132,7 @@
 
 					.new-user-text {
 						margin-left: 20rpx;
+						flex: 1;
 
 						.user-nickname {
 							font-size: 30rpx;

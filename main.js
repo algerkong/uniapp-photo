@@ -2,6 +2,10 @@ import Vue from 'vue'
 import App from './App'
 import uView from "uview-ui";
 Vue.use(uView);
+
+import marked from 'marked'
+
+Vue.prototype.$marked = marked
 //引入vuex
 import store from './store'
 Vue.prototype.$store = store
