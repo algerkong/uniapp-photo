@@ -14,7 +14,7 @@ Vue.config.productionTip = false
 
 App.mpType = 'app'
 
-Vue.prototype.$baseurl = "http://192.168.2.2:7001"
+Vue.prototype.$baseurl = "http://127.0.0.1:7001"
 
 
 Vue.mixin({
