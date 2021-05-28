@@ -17,7 +17,8 @@ let state = {
 			text: '添加',
 			pagePath: "/pages/add/add"
 		}
-	]
+	],
+	dynamicDetail:{}
 }
 
 const store = new Vuex.Store({

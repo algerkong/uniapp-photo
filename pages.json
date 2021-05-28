@@ -44,6 +44,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/index/dynamic-full/dynamic-full",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationStyle": "custom",

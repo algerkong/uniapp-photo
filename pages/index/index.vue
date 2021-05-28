@@ -7,10 +7,10 @@
 				<swiper-item  v-for="(item,index) in dayList" :key="item.id">
 					<view class="new-item">
 						<view class="new-img" @click="showImgs(index)">
-							<u-image height="100%" mode="heightFix" :src="$baseurl + item.imgs[0].src" />
+							<u-image height="100%" mode="aspectFill" :src="$baseurl + item.imgs[0].src" />
 						</view>
 						<view class="new-user">
-							<u-image  width="70rpx" height="70rpx" mode="heightFix"
+							<u-image  width="70rpx" height="70rpx" mode="aspectFill"
 								:src="$baseurl + item.user.avatar" shape="circle"></u-image>
 							<view class="new-user-text">
 								<view class="user-nickname">{{item.user.nickName}}</view>
@@ -24,6 +24,24 @@
 				</swiper-item>
 			</swiper>
 		</view>
+		
+		
+		<view class="img-list-title"> 最新动态 </view>
+		<u-waterfall v-model="flowList" ref="uWaterfall">
+			<template v-slot:left="{leftList}">
+				<view class="demo-warter-l" v-for="(item, index) in leftList" :key="index" @click="toDynamicFull(item,index,true)">
+					<!-- 警告：微信小程序中需要hx2.8.11版本才支持在template中结合其他组件，比如下方的lazy-load组件 -->
+					<u-lazy-load threshold="800"  :image="$baseurl+item.imgs[0].src" :index="index" ></u-lazy-load>
+				</view>
+			</template>
+			<template v-slot:right="{rightList}">
+				<view class="demo-warter-r" v-for="(item, index) in rightList" :key="index" @click="toDynamicFull(item,index,false)">
+					<u-lazy-load threshold="800"  :image="$baseurl+item.imgs[0].src" :index="index"></u-lazy-load>
+				</view>
+			</template>
+		</u-waterfall>
+		<u-loadmore :status="loadStatus" @loadmore="addRandomData"></u-loadmore>
+		
 		<u-tabbar :list="tabbar"></u-tabbar>
 		<u-no-network></u-no-network>
 	</view>
@@ -31,8 +49,12 @@
 
 <script>
 	import {
-		getDayDynamic
+		getDayDynamic,
+		getImgList,
+		getImgDynamic
 	} from "@/api/home.js"
+	
+	import datas from "@/utils/datas.js"
 	export default {
 		data() {
 			return {
@@ -41,16 +63,35 @@
 					count: 10
 				},
 				dayList: null,
+				
+				loadStatus: 'loadmore',
+				flowList: [],
+				queryImg: {
+					page: 0,
+					count: 10
+				},
+				list: []
 				// tabbar:''
 			}
 		},
 		onLoad() {
 			this.getList()
+			// this.getImgList()
+			this.addDynamicData();
+			this.onReachBottom();
 		},
 		computed: {
 			tabbar() {
 				return this.$store.state.tabbar
 			}
+		},
+		onReachBottom() {
+			this.loadStatus = 'loading';
+			// 模拟数据加载
+			setTimeout(() => {
+				this.addDynamicData();
+				this.loadStatus = 'loadmore';
+			}, 1000)
 		},
 		methods: {
 			getList() {
@@ -79,6 +120,44 @@
 							console.log(err.errMsg);
 						}
 					}
+				})
+			},
+			
+			//添加数据
+			async addDynamicData() {
+				this.queryImg.page +=1
+				if(this.queryImg.page <= 50){
+					await this.getImgList()
+					this.flowList = this.flowList.concat(this.list)
+					//保存数据到公用函数中
+					datas.dynamicList = this.flowList
+				}else{
+					this.loadStatus="nomore"
+				}
+				if(this.list.length == 0){
+					this.loadStatus="nomore"
+				}
+				
+			},
+			async getImgList(){
+				await getImgDynamic(this.queryImg).then(res=>{
+					this.list = res.data.data.list
+				})
+			},
+			toDynamicFull(item,index,is){
+				let num = 0
+				if(is){
+					num = index*2
+				}else{
+					num = index*2+1
+				}
+				datas.dynamicDetail = {
+					index:num,
+					item:item
+				}
+				
+				uni.navigateTo({
+					url:"./dynamic-full/dynamic-full"
 				})
 			}
 		}
@@ -147,6 +226,28 @@
 
 				}
 			}
+		}
+		
+		.img-list-title{
+			font-size: 40rpx;
+			font-weight: 600;
+			margin: 50rpx 0 30rpx;
+			letter-spacing: 5rpx;
+		}
+		
+		.demo-warter-l {
+			margin: 10rpx 10rpx 10rpx 0;
+			background-color: #ffffff;
+			position: relative;
+		}
+		.demo-warter-r {
+			margin: 10rpx 0 10rpx 10rpx;
+			background-color: #ffffff;
+			position: relative;
+		}
+		
+		.demo-image {
+			width: 100%;
 		}
 	}
 </style>

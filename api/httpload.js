@@ -10,7 +10,6 @@ const http = new Request({
 http.interceptors.request.use((config) => { // 可使用async await 做异步操作
 	const token = uni.getStorageSync('token');
 	if (token!=null&&token!=""&&token!=undefined) {
-		console.log(token,"token")
 		config.header.token = token;
 	}
 

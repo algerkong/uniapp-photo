@@ -1,16 +1,15 @@
 <template>
 	<view class="wrap">
-		<u-button @click="clear">清空列表</u-button>
 		<u-waterfall v-model="flowList" ref="uWaterfall">
 			<template v-slot:left="{leftList}">
 				<view class="demo-warter" v-for="(item, index) in leftList" :key="index">
 					<!-- 警告：微信小程序中需要hx2.8.11版本才支持在template中结合其他组件，比如下方的lazy-load组件 -->
-					<u-lazy-load threshold="-450" border-radius="10" :image="$baseurl+item.src" :index="index"></u-lazy-load>
+					<u-lazy-load threshold="-450"  :image="$baseurl+item.src" :index="index"></u-lazy-load>
 				</view>
 			</template>
 			<template v-slot:right="{rightList}">
 				<view class="demo-warter" v-for="(item, index) in rightList" :key="index">
-					<u-lazy-load threshold="-450" border-radius="10" :image="$baseurl+item.src" :index="index"></u-lazy-load>
+					<u-lazy-load threshold="-450"  :image="$baseurl+item.src" :index="index"></u-lazy-load>
 				</view>
 			</template>
 		</u-waterfall>
@@ -82,21 +81,12 @@
 
 <style lang="scss" scoped>
 	.demo-warter {
-		border-radius: 8px;
-		margin: 5px;
+		margin: 10rpx;
 		background-color: #ffffff;
-		padding: 8px;
 		position: relative;
-	}
-	
-	.u-close {
-		position: absolute;
-		top: 32rpx;
-		right: 32rpx;
 	}
 	
 	.demo-image {
 		width: 100%;
-		border-radius: 4px;
 	}
 </style>

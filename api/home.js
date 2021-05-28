@@ -8,6 +8,11 @@ export function getImgList(params){
 	return request.post("/api/img",{},{params:params})
 }
 
+
+export function getImgDynamic(params){
+	return request.get("/api/home/imgdynamic",{params})
+}
+
 // export function getDynamic(params) {
 //   return request({
 //     url: '/api/dynamic',
