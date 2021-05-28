@@ -58,9 +58,10 @@
  		 bottom: 100rpx;
  		 left: 0rpx;
 		 .img-page{
-			 width: 45rpx;
-			 height: 45rpx;
+			 width: 49rpx;
+			 height: 49rpx;
 			 margin-right: 20rpx;
+			 border:2rpx solid #FFFFFF;
 			 &:last-child{
 				 margin-right: 0;
 			 }
