@@ -56,8 +56,11 @@
 						title: res.data.message,
 						type: 'success',
 						icon: true,
-						position: "top",
-						url:"/pages/index/index"
+						position: "top"
+					})
+					
+					uni.switchTab({
+						url:'/pages/index/index'
 					})
 					
 					console.log(res)

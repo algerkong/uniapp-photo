@@ -80,6 +80,11 @@
 			this.addDynamicData();
 			this.onReachBottom();
 		},
+		onShow() {
+			if(datas.dynamicList.length>this.flowList.length){
+				this.flowList == datas.dynamicList
+			}
+		},
 		computed: {
 			tabbar() {
 				return this.$store.state.tabbar
@@ -97,9 +102,6 @@
 			getList() {
 				getDayDynamic(this.query).then(res => {
 					this.dayList = res.data.data.list
-					console.log(this.dayList)
-
-					console.log(this.dayList[0].imgs[0].src)
 				})
 			},
 			showImgs(index) {
@@ -131,11 +133,13 @@
 					this.flowList = this.flowList.concat(this.list)
 					//保存数据到公用函数中
 					datas.dynamicList = this.flowList
+					datas.dynamicQuery = this.queryImg
 				}else{
 					this.loadStatus="nomore"
 				}
 				if(this.list.length == 0){
 					this.loadStatus="nomore"
+					this.queryImg.page -=1
 				}
 				
 			},
@@ -155,7 +159,6 @@
 					index:num,
 					item:item
 				}
-				
 				uni.navigateTo({
 					url:"./dynamic-full/dynamic-full"
 				})
