@@ -14,9 +14,17 @@ Vue.config.productionTip = false
 
 App.mpType = 'app'
 
-// Vue.prototype.$baseurl = "http://192.168.1.100:7001"
-Vue.prototype.$baseurl = "http://127.0.0.1:7001"
+Vue.prototype.$baseurl = "http://123.56.226.179:7001"
+// Vue.prototype.$baseurl = "http://127.0.0.1:7001"
 
+Vue.prototype.$rTime = date => {
+	let json_date = new Date(date);
+	json_date.setHours(json_date.getHours() + 8);
+	return new Date(new Date(json_date))
+		.toISOString()
+		.replace(/T/g, " ")
+		.replace(/\.[\d]{3}Z/, "");
+}
 
 Vue.mixin({
 	data() {

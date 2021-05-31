@@ -43,6 +43,16 @@ export default {
 		this.queryImg = datas.dynamicQuery;
 		this.currentDynamic = datas.dynamicDetail.index
 		this.index = datas.dynamicDetail.index
+		
+		setTimeout(()=>{
+			uni.setNavigationBarColor({
+			    frontColor: '#ffffff',
+			    animation: {
+			        duration: 400,
+			        timingFunc: 'easeIn'
+			    }
+			})
+		},1000)
 	},
 	watch:{
 	},

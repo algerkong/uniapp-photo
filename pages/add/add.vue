@@ -72,13 +72,6 @@
 	}
 </script>
 
-<style>
-	/* page不能写带scope的style标签中，否则无效 */
-	page {
-		background-color: rgb(240, 240, 240);
-	}
-</style>
-
 <style lang="scss" scoped>
 	.demo-warter {
 		margin: 10rpx;

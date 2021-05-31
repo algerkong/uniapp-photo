@@ -52,6 +52,11 @@
 					}
 					
 					uni.setStorageSync('token', res.data.token)
+					uni.setStorageSync('user', res.data.data.user)
+					
+					
+					console.log("res.data.user",res)
+					
 					this.$refs.uToast.show({
 						title: res.data.message,
 						type: 'success',

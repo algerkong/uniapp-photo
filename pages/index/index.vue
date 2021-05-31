@@ -1,5 +1,6 @@
 <template>
 	<view class="page">
+		<view class="top"></view>
 		<view class="title">发现</view>
 		<view class="title-small">今日推荐</view>
 		<view class="new-list">
@@ -17,7 +18,7 @@
 								<view class="user-name">@{{item.user.username}}</view>
 							</view>
 							<view class="new-user-time">
-								{{item.createdAt}}
+								{{$rTime(item.createdAt)}}
 							</view>
 						</view>
 					</view>
@@ -44,6 +45,11 @@
 		
 		<u-tabbar :list="tabbar"></u-tabbar>
 		<u-no-network></u-no-network>
+		<u-mask :show="loading">
+				<view class="warp">
+					<u-loading mode="circle" size="50"></u-loading>
+				</view>
+			</u-mask>
 	</view>
 </template>
 
@@ -70,15 +76,21 @@
 					page: 0,
 					count: 10
 				},
-				list: []
+				list: [],
+				loading:true
 				// tabbar:''
 			}
 		},
 		onLoad() {
+			
+			console.log("user",uni.getStorageSync('user'))
 			this.getList()
 			// this.getImgList()
 			this.addDynamicData();
 			this.onReachBottom();
+			
+			
+			
 		},
 		onShow() {
 			if(datas.dynamicList.length>this.flowList.length){
@@ -100,8 +112,11 @@
 		},
 		methods: {
 			getList() {
+				this.loading = true
 				getDayDynamic(this.query).then(res => {
 					this.dayList = res.data.data.list
+					
+					this.loading = false
 				})
 			},
 			showImgs(index) {
@@ -167,9 +182,25 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+	.top{
+		background-color: #f4f7fc;
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: var(--status-bar-height);
+		width: 100vw;
+		z-index: 9999;
+	}
+	.warp {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 100%;
+		}
 	.page {
 		padding: 30rpx;
+		background-color: #f4f7fc;
 
 		.title {
 			padding-top: 20rpx;
