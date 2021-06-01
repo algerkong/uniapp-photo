@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App'
-import uView from "uview-ui";
+import uView from "./uview-ui";
 Vue.use(uView);
 
 import marked from 'marked'
@@ -14,16 +14,15 @@ Vue.config.productionTip = false
 
 App.mpType = 'app'
 
-Vue.prototype.$baseurl = "http://123.56.226.179:7001"
+Vue.prototype.$baseurl = "http://127.0.0.1:7001"
 // Vue.prototype.$baseurl = "http://127.0.0.1:7001"
 
+
+import {timeChange} from './utils/rTime.js'
 Vue.prototype.$rTime = date => {
 	let json_date = new Date(date);
-	json_date.setHours(json_date.getHours() + 8);
-	return new Date(new Date(json_date))
-		.toISOString()
-		.replace(/T/g, " ")
-		.replace(/\.[\d]{3}Z/, "");
+	return timeChange(json_date.valueOf())
+
 }
 
 Vue.mixin({

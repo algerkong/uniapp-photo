@@ -17,6 +17,17 @@ export function addUser(data){
 	)
 }
 
+export function getIdUser(id){
+	return request.get(
+	'/api/user/id',
+	{
+		params: {
+			id
+		}
+	}
+	)
+}
+
 // export function login(data) {
 //   return request({
 //     url: '/api/login',

@@ -4,7 +4,7 @@
 		<swiper :duration="500" vertical class="verticalSwiper" :current="currentDynamic">
 			<swiper-item class="swiper-item" v-for="(dynamic,dynamicIndex) in dynamicList">
 				<view>
-					<dynamic-full-item :dynamic="dynamic"></dynamic-full-item>
+					<dynamic-full-item :dynamic="dynamic.item"></dynamic-full-item>
 				</view>
 			</swiper-item>
 		</swiper>

@@ -53,6 +53,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/tag/tag",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationStyle": "custom",
@@ -77,13 +86,14 @@
 	    "backgroundColor": "#ffffff",
 	    "list": [{
 	        "pagePath": "pages/index/index",
-	        "iconPath": "static/back.png",
-	        "selectedIconPath": "static/back.png",
 	        "text": "组件"
-	    }, {
+	    },
+		{
+		    "pagePath": "pages/tag/tag",
+		    "text": "接口"
+		},
+		{
 	        "pagePath": "pages/add/add",
-	        "iconPath": "static/back.png",
-	        "selectedIconPath": "static/back.png",
 	        "text": "接口"
 	    }]
 	}

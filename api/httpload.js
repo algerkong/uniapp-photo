@@ -2,7 +2,7 @@ import Request from '@/utils/luch-request/index.js'
 
 // import qs from 'qs'
 const http = new Request({
-	baseURL: "http://123.56.226.179:7001", //设置请求的base url
+	baseURL: "http://127.0.0.1:7001", //设置请求的base url
 	// baseURL: "http://127.0.0.1:7001", //设置请求的base url
 	timeout: 30000, //超时时长5分钟,
 })

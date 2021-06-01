@@ -12,6 +12,12 @@ let state = {
 			pagePath: "/pages/index/index"
 		},
 		{
+			iconPath: "/static/tabbar/bulb.png",
+			selectedIconPath: "/static/tabbar/bulb-fill.png",
+			text: '话题',
+			pagePath: "/pages/tag/tag"
+		},
+		{
 			iconPath: "/static/tabbar/plus-circle.png",
 			selectedIconPath: "/static/tabbar/plus-circle-fill.png",
 			text: '添加',

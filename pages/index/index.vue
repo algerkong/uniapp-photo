@@ -30,14 +30,14 @@
 		<view class="img-list-title"> 最新动态 </view>
 		<u-waterfall v-model="flowList" ref="uWaterfall">
 			<template v-slot:left="{leftList}">
-				<view class="demo-warter-l" v-for="(item, index) in leftList" :key="index" @click="toDynamicFull(item,index,true)">
+				<view class="demo-warter-l" v-for="(item, index) in leftList" :key="index" @click="toDynamicFull(item)">
 					<!-- 警告：微信小程序中需要hx2.8.11版本才支持在template中结合其他组件，比如下方的lazy-load组件 -->
-					<u-lazy-load threshold="800"  :image="$baseurl+item.imgs[0].src" :index="index" ></u-lazy-load>
+					<u-lazy-load threshold="800"  :image="$baseurl+item.item.imgs[0].src" :index="index" ></u-lazy-load>
 				</view>
 			</template>
 			<template v-slot:right="{rightList}">
-				<view class="demo-warter-r" v-for="(item, index) in rightList" :key="index" @click="toDynamicFull(item,index,false)">
-					<u-lazy-load threshold="800"  :image="$baseurl+item.imgs[0].src" :index="index"></u-lazy-load>
+				<view class="demo-warter-r" v-for="(item, index) in rightList" :key="index" @click="toDynamicFull(item)">
+					<u-lazy-load threshold="800"  :image="$baseurl+item.item.imgs[0].src" :index="index"></u-lazy-load>
 				</view>
 			</template>
 		</u-waterfall>
@@ -160,20 +160,20 @@
 			},
 			async getImgList(){
 				await getImgDynamic(this.queryImg).then(res=>{
-					this.list = res.data.data.list
+					// this.list = res.data.data.list
+					let list = []
+					res.data.data.list.forEach((item,index)=>{
+						list.push({
+							item:item,
+							index:this.flowList.length + index
+						})
+					})
+					this.list = list
+					
 				})
 			},
-			toDynamicFull(item,index,is){
-				let num = 0
-				if(is){
-					num = index*2
-				}else{
-					num = index*2+1
-				}
-				datas.dynamicDetail = {
-					index:num,
-					item:item
-				}
+			toDynamicFull(item){
+				datas.dynamicDetail =item
 				uni.navigateTo({
 					url:"./dynamic-full/dynamic-full"
 				})
