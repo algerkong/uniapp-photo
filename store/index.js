@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 
 let state = {
-	tabbar:[{
+	tabbar: [{
 			iconPath: "/static/tabbar/home.png",
 			selectedIconPath: "/static/tabbar/home-fill.png",
 			text: '首页',
@@ -21,10 +21,23 @@ let state = {
 			iconPath: "/static/tabbar/plus-circle.png",
 			selectedIconPath: "/static/tabbar/plus-circle-fill.png",
 			text: '添加',
-			pagePath: "/pages/add/add"
-		}
+			midButton: true,
+		},
+		{
+			iconPath: "/static/tabbar/shopping.png",
+			selectedIconPath: "/static/tabbar/shopping-fill.png",
+			text: '订单',
+			pagePath: "/pages/order/order"
+		},
+		{
+			iconPath: "/static/tabbar/user.png",
+			selectedIconPath: "/static/tabbar/user-fill.png",
+			text: '我',
+			pagePath: "/pages/user/user"
+		},
+
 	],
-	dynamicDetail:{}
+	dynamicDetail: {}
 }
 
 const store = new Vuex.Store({

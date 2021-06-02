@@ -392,6 +392,6 @@
 	}
 
 	.comment-list {
-		padding: 100rpx 0 100rpx;
+		padding: 100rpx 30rpx 100rpx;
 	}
 </style>

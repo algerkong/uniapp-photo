@@ -6,10 +6,6 @@
 				uni.reLaunch({
 					url:'pages/start/start'
 				})
-			}else{
-				uni.switchTab({
-					url:'pages/index/index'
-				})
 			}
 			// uni.hideTabBar()
 		},

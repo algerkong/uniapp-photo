@@ -72,7 +72,7 @@
 <style lang="scss" scoped>
 	
 	.comment{
-		padding: 20rpx 30rpx;
+		padding: 20rpx 0rpx;
 		&:active{
 			background-color: #E4E7ED;
 		}
