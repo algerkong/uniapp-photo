@@ -11,6 +11,7 @@
 			<view style="text-align: center; font-size: 30rpx;">没有账号?去注册</view>
 		</navigator>
 		<u-toast ref="uToast" />
+		<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="toIndex"></u-modal>
 	</view>
 </template>
 
@@ -23,15 +24,24 @@
 			return {
 				username: '',
 				password: '',
-				returnSrc:'../../static/return.svg'
+				returnSrc: '../../static/return.svg',
+				show: false,
+				content: '已有登录账号，是否直接登录'
 			};
 		},
+		mounted() {
+			let user = uni.getStorageSync('user')
+			if (user) {
+				this.content = `已登录账号${user.nickName}，是否直接登录`
+				this.show = true
+			}
+		},
 		methods: {
-			returnPage(){
+			returnPage() {
 				uni.navigateBack()
 			},
 			btnLogin() {
-				if(this.username==""||this.password==""){
+				if (this.username == "" || this.password == "") {
 					this.$refs.uToast.show({
 						title: "请确认输入完整",
 						type: 'error',
@@ -50,24 +60,24 @@
 						})
 						return
 					}
-					
+
 					uni.setStorageSync('token', res.data.token)
 					uni.setStorageSync('user', res.data.data.user)
-					
-					
-					console.log("res.data.user",res)
-					
+
+
+					console.log("res.data.user", res)
+
 					this.$refs.uToast.show({
 						title: res.data.message,
 						type: 'success',
 						icon: true,
 						position: "top"
 					})
-					
+
 					uni.switchTab({
-						url:'/pages/index/index'
+						url: '/pages/index/index'
 					})
-					
+
 					console.log(res)
 
 
@@ -75,11 +85,16 @@
 					console.log(res)
 				})
 			},
-			toStart(){
+			toStart() {
 				uni.switchTab({
-					url:'../start/start'
+					url: '../start/start'
 				})
 			},
+			toIndex() {
+				uni.switchTab({
+					url: "/pages/index/index"
+				})
+			}
 		}
 	};
 </script>
@@ -87,11 +102,13 @@
 <style lang="scss">
 	.page {
 		padding: 20rpx;
-		.return{
+
+		.return {
 			margin-top: var(--status-bar-height);
 			display: inline-block;
 			padding: 20rpx 20rpx 0 0;
 		}
+
 		.title {
 			font-size: 60rpx;
 			letter-spacing: 20rpx;

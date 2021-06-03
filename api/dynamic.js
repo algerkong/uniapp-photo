@@ -1,5 +1,10 @@
 import request from "./httpload.js"
 
+//获取动态
+export function getDynamic(params){
+	return request.get('/api/dynamic',{params})
+}
+
 //获取动态评论
 export function getComment(params){
 	return request.get('/api/comment',{params})

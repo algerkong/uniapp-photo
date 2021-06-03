@@ -1,6 +1,8 @@
 <template>
 	<view class="page">
-
+		<view class="btn-search" >
+			<input @keydown.enter="sendSearch" v-model="value" confirm-type="搜索"  placeholder="搜索点什么吧..." />
+		</view>
 		<view>
 			<u-tabs-swiper ref="uTabs" :list="list" active-color="#333" :current="current" @change="tabsChange"
 				:active-item-style="activeItem" :is-scroll="false" swiperWidth="750"></u-tabs-swiper>
@@ -36,6 +38,7 @@
 				// 因为内部的滑动机制限制，请将tabs组件和swiper组件的current用不同变量赋值
 				current: 0, // tabs组件的current值，表示当前活动的tab选项
 				swiperCurrent: 0, // swiper组件的current值，表示当前那个swiper-item是活动的
+				value:''
 			};
 		},
 		mounted() {
@@ -63,8 +66,22 @@
 				this.current = current;
 			},
 			onreachBottom() {
-
-			}
+			
+			},
+			toSearch(){
+				uni.navigateTo({
+					url:"/pages/search/search"
+				})
+			},
+			sendSearch(){
+				let that = this
+				uni.navigateTo({
+					url:"/pages/search/search?search="+this.value,
+					success() {
+						that.value = ""
+					}
+				})
+			}			
 		}
 	}
 </script>
@@ -76,10 +93,17 @@
 	}
 
 	.swiper {
-		height: calc(100vh - 80rpx - 100rpx);
+		height: calc(100vh - 80rpx - 180rpx);
 	}
 
 	.swiper-item {
-		height: calc(100vh - 80rpx - 100rpx);
+		height: calc(100vh - 80rpx - 180rpx);
+	}
+	.btn-search{
+		background-color: #f4f4f4;
+		margin: 10rpx 20rpx;
+		padding: 10rpx 15rpx;
+		border-radius: 10rpx;
+		color: #333;
 	}
 </style>

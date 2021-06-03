@@ -12,7 +12,8 @@
 			</view>
 		</view>
 		<view class="dynamic-content">
-			{{dynamic.content}}
+			<div class="title">{{dynamic.title}}</div>
+			<div class="content">{{dynamic.content}}</div>
 		</view>
 		<view v-if="dynamic.imgs" class="img-list">
 			<u-grid :col="dynamic.imgs.length%3==0||dynamic.imgs.length>4?'3':'2'" :border="false">
@@ -26,7 +27,7 @@
 		<view class="dynamic-btn">
 			<view class="btn-item">
 				<view @click.stop="praiseDynamic">
-					<u-icon name="thumb-up" :color="!is?'#2979ff':''"></u-icon>
+					<u-icon name="thumb-up" :color="!is&&dynamic.praises.length>0?'#2979ff':''"></u-icon>
 					<span>{{dynamic.praises.length}}</span>
 				</view>
 			</view>
@@ -189,8 +190,11 @@
 
 	.dynamic-content {
 		margin-top: 20rpx;
+		.title{
+			font-size: 36rpx;
+			font-weight: 500;
+		}
 	}
-	
 	.dynamic-btn{
 		height: 60rpx;
 		display: flex;

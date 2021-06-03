@@ -11,7 +11,8 @@
 				</view>
 			</view>
 			<view class="dynamic-content">
-				{{dynamic.content}}
+				<div class="title">{{dynamic.title}}</div>
+				<div class="content">{{dynamic.content}}</div>
 			</view>
 			<view v-if="dynamic.imgs" class="img-list">
 				<u-grid :col="dynamic.imgs.length%3==0||dynamic.imgs.length>4?'3':'2'" :border="false">
@@ -38,7 +39,7 @@
 
 			<view class="dynamic-btn">
 				<view class="input">
-					写点什么吧...
+					<input confirm-type="send" @keydown.enter="sendComment"  v-model="commentValue" :adjust-position="false" auto-height placeholder="说点什么吧..." />
 				</view>
 				<view class="btn-item">
 					<view @click.stop="praiseDynamic">
@@ -85,11 +86,22 @@
 					"height": "400rpx"
 				},
 				is: false,
-				imgs: []
+				imgs: [],
+				commentValue:''
 			};
 		},
 		mounted() {
 			this.dynamic = datas.dynamicDetail
+			
+			let dynamicHistoryList = uni.getStorageSync('history')
+			if(!dynamicHistoryList.length){
+				dynamicHistoryList = []
+			}
+			dynamicHistoryList.push({data:this.dynamic,time:new Date()})
+			uni.setStorage({
+				key:'history',
+				data:dynamicHistoryList
+			})
 
 			this.dynamic.imgs.forEach(e => {
 				this.imgs.push(this.$baseurl + e.src)
@@ -125,6 +137,26 @@
 					}
 				})
 			},
+			sendComment() {
+				if(this.commentValue == "")
+				return
+				let data = {
+					userId: uni.getStorageSync('user').id,
+					dynamicId: this.dynamic.id,
+					content: this.commentValue
+				}
+				
+				console.log("id",data)
+				
+				addComment(data).then(res => {
+					getComment({id:this.dynamic.id}).then(res => {
+						console.log(res, "发送成功")
+						this.dynamic.comments = res.data.data
+						this.commentValue = ""
+						
+					})
+				})
+			}
 		}
 	}
 </script>
@@ -184,6 +216,10 @@
 	.dynamic-content {
 		padding: 0 25rpx;
 		margin-top: 20rpx;
+		.title{
+			font-size: 36rpx;
+			font-weight: 500;
+		}
 	}
 	
 	.num-page{
