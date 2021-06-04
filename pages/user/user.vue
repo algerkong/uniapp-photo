@@ -21,7 +21,7 @@
 			<view class="title">
 				<view class="text">浏览历史</view>
 				<view class="more" @click="toMore">
-					<u-icon name="search"></u-icon>
+					<u-icon name="arrow-right"></u-icon>
 				</view>
 			</view>
 			<view class="history-list">
@@ -37,7 +37,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<view>
 			<u-button @click="show = true">退出登陆</u-button>
 		</view>
@@ -75,22 +75,22 @@
 					count: 0,
 					list: []
 				},
-				show:false,
-				content:'确定要退出登录吗'
+				show: false,
+				content: '确定要退出登录吗'
 			};
 		},
 		onShow() {
 			this.user = uni.getStorageSync('user')
-			try{
-				this.historyList = uni.getStorageSync('history').reverse().splice(0,5)
-			}catch(e){
+			try {
+				this.historyList = uni.getStorageSync('history').reverse().splice(0, 5)
+			} catch (e) {
 				//TODO handle the exception
-				
+
 			}
 			this.queryComment.userId = this.user.id
 			getUserDynamic(this.queryDynamic, this.user.id).then(res => {
-				this.dynamic.count = res.data.total,
-					this.dynamic.list = res.data.body
+				this.dynamic.count = res.data.total
+				this.dynamic.list = res.data.body
 			})
 			getUserComment(this.queryComment).then(res => {
 				this.comment.count = res.data.data.total
@@ -100,22 +100,22 @@
 
 			console.log(this.historyList, "aaaaaaaaaaaaaaaaaa")
 		},
-		methods:{
-			toDynamic(item){
+		methods: {
+			toDynamic(item) {
 				datas.dynamicDetail = item.data
 				uni.navigateTo({
-					url:"/pages/dynamic/dynamic"
+					url: "/pages/dynamic/dynamic"
 				})
 			},
-			toMore(){
+			toMore() {
 				uni.navigateTo({
-					url:"/pages/user/historyDynamic/historyDynamic"
+					url: "/pages/user/historyDynamic/historyDynamic"
 				})
 			},
-			logout(){
+			logout() {
 				uni.clearStorageSync()
 				uni.reLaunch({
-					url:"/pages/start/start"
+					url: "/pages/start/start"
 				})
 			}
 		}
@@ -123,57 +123,7 @@
 </script>
 
 <style lang="scss" scoped>
-	
-	.title{
-		display:flex;
-		justify-content: space-between;
-		.text{
-			font-size: 30rpx;
-			font-weight: 600;
-			margin-bottom: 10rpx;
-		}
-		.more{
-			flex: 1;
-			text-align: right;
-		}
-	}
-	
-	.history-list{
-		.history-item{
-			display: flex;
-			align-items: center;
-			padding: 10rpx 10rpx;
-			background-color: #FFFFFF;
-			border-radius: 10rpx;
-			transition: .3s;
-			&:active{
-				filter: brightness(80%);
-			}
-			.content{
-				display: flex;
-				flex: 1;
-				margin-left: 20rpx;
-				flex-direction: column;
-				justify-content: space-between;
-				.title{
-					color: #858486;
-					font-size: 24rpx;
-				}
-				.user-top{
-					display: flex;
-					justify-content: space-between;
-					align-items: center;
-					.name{
-						font-size: 32rpx;
-					}
-					.time{
-						font-size: 24rpx;
-						color: #858486;
-					}
-				}
-			}
-		}
-	}
+
 	.page {
 		padding-top: var(--status-bar-height);
 		background-color: #F2F1F6;
@@ -219,4 +169,65 @@
 			}
 		}
 	}
+	
+	
+	.title {
+		display: flex;
+		justify-content: space-between;
+	
+		.text {
+			font-size: 30rpx;
+			font-weight: 600;
+			margin-bottom: 10rpx;
+		}
+	
+		.more {
+			flex: 1;
+			text-align: right;
+		}
+	}
+	
+	.history-list {
+		.history-item {
+			display: flex;
+			align-items: center;
+			padding: 10rpx 10rpx;
+			background-color: #FFFFFF;
+			border-radius: 10rpx;
+			transition: .3s;
+	
+			&:active {
+				filter: brightness(80%);
+			}
+	
+			.content {
+				display: flex;
+				flex: 1;
+				margin-left: 20rpx;
+				flex-direction: column;
+				justify-content: space-between;
+	
+				.title {
+					color: #858486;
+					font-size: 24rpx;
+				}
+	
+				.user-top {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+	
+					.name {
+						font-size: 32rpx;
+					}
+	
+					.time {
+						font-size: 24rpx;
+						color: #858486;
+					}
+				}
+			}
+		}
+	}
+	
 </style>

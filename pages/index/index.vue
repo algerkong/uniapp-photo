@@ -50,7 +50,7 @@
 				<u-loading mode="circle" size="50"></u-loading>
 			</view>
 		</u-mask>
-
+		<view class="bottom"></view>
 		<u-tabbar :list="$store.state.tabbar" :mid-button="true"></u-tabbar>
 	</view>
 </template>

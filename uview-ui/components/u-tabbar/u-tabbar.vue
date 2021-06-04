@@ -42,10 +42,10 @@
 
 		<view class="middleView" v-if="isMiddle" @click="isMiddle = false">
 			<view class="btn-page">
-				<view class="btn" style="background-color: #26BFB1;" @click.stop="">
+				<view class="btn" style="background-color: #26BFB1;" @click.stop="toAddDynamic">
 					<u-icon class="icon" name="edit-pen"></u-icon>发动态
 				</view>
-				<view class="btn" style="background-color: #FE6432;"  @click.stop="">
+				<view class="btn" style="background-color: #FE6432;"  @click.stop="toAddDynamic">
 					<u-icon class="icon" name="file-text"></u-icon>发订单
 				</view>
 			</view>
@@ -243,6 +243,12 @@
 				let windowWidth = this.$u.sys().windowWidth;
 				// 由于安卓中css计算left: 50%的结果不准确，故用js计算
 				this.midButtonLeft = (windowWidth / 2) + 'px';
+			},
+			
+			toAddDynamic(){
+				uni.navigateTo({
+					url:"/pages/dynamic/addDynamic/addDynamic"
+				})
 			}
 		}
 	}

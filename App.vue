@@ -26,6 +26,6 @@
 	@import "./uview-ui/index.scss";
 	
 	.bottom{
-		height: 100rpx;
+		height: 150rpx;
 	}
 </style>

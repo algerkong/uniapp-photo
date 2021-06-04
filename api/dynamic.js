@@ -5,6 +5,10 @@ export function getDynamic(params){
 	return request.get('/api/dynamic',{params})
 }
 
+export function addDynamic(data){
+	return request.post('/api/dynamic',data)
+}
+
 //获取动态评论
 export function getComment(params){
 	return request.get('/api/comment',{params})
