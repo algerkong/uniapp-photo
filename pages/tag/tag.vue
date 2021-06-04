@@ -1,7 +1,9 @@
 <template>
 	<view class="page">
 		<view class="btn-search" >
-			<input @keydown.enter="sendSearch" v-model="value" confirm-type="搜索"  placeholder="搜索点什么吧..." />
+			<view class="search">
+				<input @keydown.enter="sendSearch" v-model="value" confirm-type="搜索"  placeholder="搜索点什么吧..." />
+			</view>
 		</view>
 		<view>
 			<u-tabs-swiper ref="uTabs" :list="list" active-color="#333" :current="current" @change="tabsChange"
@@ -90,6 +92,7 @@
 	.page {
 		padding-top: --status-bar-height;
 		height: 100vh !important;
+		background-color: #F2F1F6;
 	}
 
 	.swiper {
@@ -100,10 +103,13 @@
 		height: calc(100vh - 80rpx - 180rpx);
 	}
 	.btn-search{
-		background-color: #f4f4f4;
-		margin: 10rpx 20rpx;
-		padding: 10rpx 15rpx;
-		border-radius: 10rpx;
+		background-color: #FFFFFF;
+		padding: 10rpx 20rpx;
 		color: #333;
+		.search{
+			border-radius: 10rpx;
+			padding: 10rpx 15rpx;
+			background-color:#F2F1F6;
+		}
 	}
 </style>

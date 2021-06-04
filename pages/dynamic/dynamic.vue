@@ -79,11 +79,11 @@
 				dynamic: {},
 				imgStyle: {
 					"padding": "0 10rpx 10rpx 0",
-					"height": "400rpx"
+					"height": "216rpx"
 				},
-				imgStyle1: {
+				imgStyle1:{
 					"padding": "0 0 10rpx 0",
-					"height": "400rpx"
+					"height": "216rpx"
 				},
 				is: false,
 				imgs: [],

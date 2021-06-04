@@ -32,13 +32,13 @@
 			<template v-slot:left="{leftList}">
 				<view class="demo-warter-l" v-for="(item, index) in leftList" :key="index" @click="toDynamicFull(item)">
 					<!-- 警告：微信小程序中需要hx2.8.11版本才支持在template中结合其他组件，比如下方的lazy-load组件 -->
-					<u-lazy-load threshold="800" :image="$baseurl+item.item.imgs[0].src" :index="index"></u-lazy-load>
+					<u-lazy-load class="img" threshold="800" :image="$baseurl+item.item.imgs[0].src" :index="index"></u-lazy-load>
 				</view>
 			</template>
 			<template v-slot:right="{rightList}">
 				<view class="demo-warter-r" v-for="(item, index) in rightList" :key="index"
 					@click="toDynamicFull(item)">
-					<u-lazy-load threshold="800" :image="$baseurl+item.item.imgs[0].src" :index="index"></u-lazy-load>
+					<u-lazy-load class="img" threshold="800" :image="$baseurl+item.item.imgs[0].src" :index="index"></u-lazy-load>
 				</view>
 			</template>
 		</u-waterfall>
@@ -100,13 +100,11 @@
 			}
 		},
 		computed: {},
-		onReachBottom() {
+		async onReachBottom() {
 			this.loadStatus = 'loading';
-			// 模拟数据加载
-			setTimeout(() => {
-				this.addDynamicData();
-				this.loadStatus = 'loadmore';
-			}, 1000)
+			// 数据加载
+			await this.addDynamicData();
+			this.loadStatus = 'loadmore';
 		},
 		methods: {
 			getList() {
@@ -182,7 +180,7 @@
 
 <style lang="scss" scoped>
 	.top {
-		background-color: #f9f9f9;
+		background-color: #F2F1F6;
 		position: fixed;
 		top: 0;
 		left: 0;
@@ -200,7 +198,8 @@
 
 	.page {
 		padding: 30rpx;
-		background-color: #f9f9f9;
+		background-color: #F2F1F6;
+		min-height: 100vh;
 
 		.title {
 			padding-top: 20rpx;
@@ -236,6 +235,7 @@
 					overflow: hidden;
 					display: flex;
 					align-items: center;
+					border-radius: 10rpx;
 				}
 
 				.new-user {
@@ -273,12 +273,20 @@
 			margin: 10rpx 10rpx 10rpx 0;
 			background-color: #ffffff;
 			position: relative;
+			.img{
+				overflow: hidden;
+				border-radius: 10rpx !important;
+			}
 		}
 
 		.demo-warter-r {
 			margin: 10rpx 0 10rpx 10rpx;
 			background-color: #ffffff;
 			position: relative;
+			.img{
+				overflow: hidden;
+				border-radius: 10rpx !important;
+			}
 		}
 
 		.demo-image {

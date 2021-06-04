@@ -52,10 +52,8 @@
 		width: 100vw;
 		padding: 20rpx;
 		box-sizing: border-box;
-		background-color: #f9f9f9;
+		background-color: #F2F1F6;
 	}
 	
-	.bottom{
-		height: 100rpx;
-	}
+	
 </style>

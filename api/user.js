@@ -28,6 +28,17 @@ export function getIdUser(id){
 	)
 }
 
+
+//获取用户动态
+export function getUserDynamic(params,userId){
+	return request.post('/api/dynamic/find',{userId:userId},{params})
+}
+
+//获取用户评论
+export function getUserComment(params){
+	return request.get('/api/comment/user',{params})
+}
+
 // export function login(data) {
 //   return request({
 //     url: '/api/login',

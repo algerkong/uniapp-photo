@@ -35,9 +35,9 @@
 			</view>
 		</view>
 		<!-- 这里加上一个48rpx的高度,是为了增高有凸起按钮时的防塌陷高度(也即按钮凸出来部分的高度) -->
-		<view class="u-fixed-placeholder safe-area-inset-bottom" :style="{
+		<!-- <view class="u-fixed-placeholder safe-area-inset-bottom" :style="{
 				height: `calc(${$u.addUnit(height)} + ${midButton ? 48 : 0}rpx)`,
-			}"></view>
+			}"></view> -->
 
 
 		<view class="middleView" v-if="isMiddle" @click="isMiddle = false">
