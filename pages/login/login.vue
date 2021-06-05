@@ -30,6 +30,10 @@
 			};
 		},
 		mounted() {
+			
+			uni.preloadPage({
+				url:'/pages/index/index'
+			})
 			let user = uni.getStorageSync('user')
 			if (user) {
 				this.content = `已登录账号${user.nickName}，是否直接登录`
@@ -74,6 +78,9 @@
 						position: "top"
 					})
 
+					uni.reLaunch({
+						url:'/pages/index/index'
+					})
 					uni.switchTab({
 						url: '/pages/index/index'
 					})
@@ -91,6 +98,9 @@
 				})
 			},
 			toIndex() {
+				uni.reLaunch({
+					url:'/pages/index/index'
+				})
 				uni.switchTab({
 					url: "/pages/index/index"
 				})

@@ -14,8 +14,8 @@ Vue.config.productionTip = false
 
 App.mpType = 'app'
 
-Vue.prototype.$baseurl = "http://127.0.0.1:7001"
 // Vue.prototype.$baseurl = "http://127.0.0.1:7001"
+Vue.prototype.$baseurl = "http://123.56.226.179:7001"
 
 
 import {timeChange} from './utils/rTime.js'

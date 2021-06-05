@@ -82,7 +82,7 @@
 		onShow() {
 			this.user = uni.getStorageSync('user')
 			try {
-				this.historyList = uni.getStorageSync('history').reverse().splice(0, 5)
+				this.historyList = uni.getStorageSync('history').reverse().splice(0,8)
 			} catch (e) {
 				//TODO handle the exception
 

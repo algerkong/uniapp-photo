@@ -58,7 +58,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
             
         }
@@ -109,6 +109,15 @@
         }
         ,{
             "path" : "pages/dynamic/addDynamic/addDynamic",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/tag/chooseTag/chooseTag",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",

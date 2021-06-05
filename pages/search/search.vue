@@ -12,12 +12,18 @@
 				</view>
 			</slot>
 		</u-navbar>
+		<scroll-view class="scroll-view" scroll-y style="height: 100%;width: 100%;" @scrolltolower="onreachBottom">
 
 		<dynamic-item v-for="(item,index) in dynamicList" :dynamic="item"></dynamic-item>
 		<view class="none-dynamic" v-if="dynamicList.length==0&&!loading">
 			<image src="../../static/none.svg" mode=""></image>
 			<view>没有搜索到动态</view>
 		</view>
+		<u-divider v-if="dynamicList.length > query.count-1" bg-color="#00000000">{{ loadStatus }}</u-divider>
+		<view class="bottom">
+			
+		</view>
+		</scroll-view>
 		
 		<u-mask :show="loading">
 			<view class="warp">
@@ -40,8 +46,11 @@
 		data() {
 			return {
 				query: {
-					str: ''
+					str: '',
+					page:1,
+					count:5
 				},
+				loadStatus:'加载更多',
 				dynamicList: [],
 				loading:false
 			};
@@ -57,6 +66,24 @@
 					this.dynamicList = res.data.data.list
 					this.loading =false
 				})
+			},
+			async onreachBottom() {
+				this.loadStatus = '加载中...';
+				if (this.loadStatus == '没有更多了') {
+					return;
+				}
+				this.query.page += 1;
+				await getDynamic(this.query).then(res => {
+					let list = res.data.data.list
+					if (list.length == 0) {
+						this.query.page -= 1;
+						this.loadStatus = '没有更多了';
+						return;
+					} else {
+						this.loadStatus = '加载更多';
+					}
+					this.dynamicList = this.dynamicList.concat(list);
+				})
 			}
 		}
 	}
@@ -67,7 +94,7 @@
 		padding: 20rpx;
 		box-sizing: border-box;
 		background-color: #f9f9f9;
-		min-height: 100vh;
+		height: 100vh;
 	}
 	
 	.warp {
