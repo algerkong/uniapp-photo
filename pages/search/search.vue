@@ -14,17 +14,15 @@
 		</u-navbar>
 		<scroll-view class="scroll-view" scroll-y style="height: 100%;width: 100%;" @scrolltolower="onreachBottom">
 
-		<dynamic-item v-for="(item,index) in dynamicList" :dynamic="item"></dynamic-item>
-		<view class="none-dynamic" v-if="dynamicList.length==0&&!loading">
-			<image src="../../static/none.svg" mode=""></image>
-			<view>没有搜索到动态</view>
-		</view>
-		<u-divider v-if="dynamicList.length > query.count-1" bg-color="#00000000">{{ loadStatus }}</u-divider>
-		<view class="bottom">
-			
-		</view>
+			<dynamic-item v-for="(item,index) in dynamicList" :dynamic="item"></dynamic-item>
+			<view class="none-dynamic" v-if="dynamicList.length==0&&!loading">
+				<image src="../../static/none.svg" mode=""></image>
+				<view>没有搜索到动态</view>
+			</view>
+			<u-divider v-if="dynamicList.length > query.count-1" bg-color="#00000000">{{ loadStatus }}</u-divider>
+			<view class="bottom"></view>
 		</scroll-view>
-		
+
 		<u-mask :show="loading">
 			<view class="warp">
 				<u-loading mode="circle" size="50"></u-loading>
@@ -47,12 +45,12 @@
 			return {
 				query: {
 					str: '',
-					page:1,
-					count:5
+					page: 1,
+					count: 5
 				},
-				loadStatus:'加载更多',
+				loadStatus: '加载更多',
 				dynamicList: [],
-				loading:false
+				loading: false
 			};
 		},
 		onLoad(option) {
@@ -64,7 +62,7 @@
 				this.loading = true
 				getDynamic(this.query).then(res => {
 					this.dynamicList = res.data.data.list
-					this.loading =false
+					this.loading = false
 				})
 			},
 			async onreachBottom() {
@@ -91,19 +89,20 @@
 
 <style lang="scss" scoped>
 	.page {
-		padding: 20rpx;
+		padding: 0 20rpx;
 		box-sizing: border-box;
 		background-color: #f9f9f9;
-		height: 100vh;
+		min-height: 100vh;
 	}
-	
+
 	.warp {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		height: 100%;
 		flex-direction: column;
-		.text{
+
+		.text {
 			margin-top: 50rpx;
 			color: #FFFFFF;
 		}
@@ -122,7 +121,8 @@
 		text-align: center;
 		width: 82rpx;
 	}
-	.none-dynamic{
+
+	.none-dynamic {
 		min-height: 80vh;
 		margin: 0 auto;
 		display: flex;

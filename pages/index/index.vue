@@ -84,15 +84,13 @@
 			}
 		},
 		onLoad() {
-
-			console.log("user", uni.getStorageSync('user'))
 			this.getList()
-			// this.getImgList()
 			this.addDynamicData();
-			this.onReachBottom();
-
-
-
+			try{
+				this.onReachBottom();
+			}catch(e){
+				//TODO handle the exception
+			}
 		},
 		onShow() {
 			if (datas.dynamicList.length > this.flowList.length) {

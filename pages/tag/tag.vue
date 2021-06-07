@@ -53,7 +53,11 @@ export default {
 		await getTagList().then(res => {
 			// console.log(eval('that.$refs.tagDynamic'+that.current)[0]);
 			that.list = res.data.data.list;
-			eval('that.$refs.tagDynamic'+that.current)[0].show()
+			try{
+				eval('that.$refs.tagDynamic'+that.current)[0].show()
+			}catch(e){
+				//TODO handle the exception
+			}
 		});
 		uni.stopPullDownRefresh();
 	},
@@ -99,17 +103,17 @@ export default {
 
 <style lang="scss" scoped>
 .page {
-	padding-top: --status-bar-height;
+	padding-top: var(--status-bar-height);
 	height: 100vh !important;
 	background-color: #f2f1f6;
 }
 
 .swiper {
-	height: calc(100vh - 80rpx - 180rpx);
+	height: calc(100% - 80rpx - 180rpx);
 }
 
 .swiper-item {
-	height: calc(100vh - 80rpx - 180rpx);
+	height: calc(100% - 80rpx - 180rpx);
 }
 .btn-search {
 	background-color: #ffffff;

@@ -50,7 +50,6 @@
 
 
 <script>
-	import datas from "@/utils/datas.js"
 	import {
 		getIsPraise,
 		giveLike,
@@ -127,9 +126,8 @@
 				})
 			},
 			toDynamic(){
-				datas.dynamicDetail = this.dynamic
 				uni.navigateTo({
-					url:"/pages/dynamic/dynamic"
+					url:"/pages/dynamic/dynamic?id="+this.dynamic.id
 				})
 			}
 		}
@@ -157,6 +155,7 @@
 			height: 217rpx !important;
 			border-radius: 10rpx;
 			overflow: hidden;
+			background-color: #e9ecf1;
 		}
 	}
 

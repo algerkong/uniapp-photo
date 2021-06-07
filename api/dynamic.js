@@ -5,6 +5,15 @@ export function getDynamic(params){
 	return request.get('/api/dynamic',{params})
 }
 
+
+//获取动态
+export function getIdDynamic(id){
+	return request.get('/api/dynamic/id',{params:{
+		id:id
+	}})
+}
+
+
 export function addDynamic(data){
 	return request.post('/api/dynamic',data)
 }

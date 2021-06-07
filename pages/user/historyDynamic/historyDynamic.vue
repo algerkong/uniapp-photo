@@ -17,7 +17,6 @@
 </template>
 
 <script>
-	import datas from "@/utils/datas.js"
 	export default {
 		data() {
 			return {
@@ -29,9 +28,8 @@
 		},
 		methods:{
 			toDynamic(item){
-				datas.dynamicDetail = item.data
 				uni.navigateTo({
-					url:"/pages/dynamic/dynamic"
+					url:"/pages/dynamic/dynamic?id="+item.data.id
 				})
 			}
 		}

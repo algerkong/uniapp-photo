@@ -29,6 +29,14 @@ export function getIdUser(id){
 }
 
 
+export function editUser(id,body){
+	return request.put(
+	'/api/user/'+id,
+	body
+	)
+}
+
+
 //获取用户动态
 export function getUserDynamic(params,userId){
 	return request.post('/api/dynamic/find',{userId:userId},{params})

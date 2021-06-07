@@ -34,12 +34,13 @@
 					<comment-item :comment="item"></comment-item>
 				</view>
 			</view>
-			
+
 			<view class="bottom"></view>
 
 			<view class="dynamic-btn">
 				<view class="input">
-					<input confirm-type="send" @keydown.enter="sendComment"  v-model="commentValue" :adjust-position="false" auto-height placeholder="说点什么吧..." />
+					<input confirm-type="send" @keydown.enter="sendComment" v-model="commentValue"
+						:adjust-position="false" auto-height placeholder="说点什么吧..." />
 				</view>
 				<view class="btn-item">
 					<view @click.stop="praiseDynamic">
@@ -71,36 +72,49 @@
 		getIsPraise,
 		giveLike,
 		addComment,
-		getComment
+		getComment,
+		getIdDynamic
 	} from '@/api/dynamic.js'
 	export default {
 		data() {
 			return {
-				dynamic: {},
+				dynamic: {
+					user:{
+						avatar: ''
+					},
+					praises:[],
+					comments:[]
+				},
 				imgStyle: {
 					"padding": "0 10rpx 10rpx 0",
 					"height": "216rpx"
 				},
-				imgStyle1:{
+				imgStyle1: {
 					"padding": "0 0 10rpx 0",
 					"height": "216rpx"
 				},
 				is: false,
 				imgs: [],
-				commentValue:''
+				commentValue: ''
 			};
 		},
-		mounted() {
-			this.dynamic = datas.dynamicDetail
+		async onLoad(option) {
+			let id = option.id
+			await getIdDynamic(id).then(res => {
+				this.dynamic = res.data.body
+			})
 			
 			let dynamicHistoryList = uni.getStorageSync('history')
-			if(!dynamicHistoryList.length){
+			if (!dynamicHistoryList.length) {
 				dynamicHistoryList = []
 			}
-			dynamicHistoryList.push({data:this.dynamic,time:new Date()})
+			dynamicHistoryList.push({
+				data: this.dynamic,
+				time: new Date()
+			})
 			uni.setStorage({
-				key:'history',
-				data:dynamicHistoryList
+				key: 'history',
+				data: dynamicHistoryList
 			})
 
 			this.dynamic.imgs.forEach(e => {
@@ -138,22 +152,21 @@
 				})
 			},
 			sendComment() {
-				if(this.commentValue == "")
-				return
+				if (this.commentValue == "")
+					return
 				let data = {
 					userId: uni.getStorageSync('user').id,
 					dynamicId: this.dynamic.id,
 					content: this.commentValue
 				}
-				
-				console.log("id",data)
-				
+
 				addComment(data).then(res => {
-					getComment({id:this.dynamic.id}).then(res => {
-						console.log(res, "发送成功")
+					getComment({
+						id: this.dynamic.id
+					}).then(res => {
 						this.dynamic.comments = res.data.data
 						this.commentValue = ""
-						
+
 					})
 				})
 			}
@@ -173,6 +186,7 @@
 		overflow: hidden;
 		margin-top: 20rpx;
 		padding: 0 25rpx;
+
 		.img {
 			width: 100% !important;
 			height: 217rpx !important;
@@ -211,36 +225,39 @@
 			color: #767676;
 		}
 	}
-	
+
 
 	.dynamic-content {
 		padding: 0 25rpx;
 		margin-top: 20rpx;
-		.title{
+
+		.title {
 			font-size: 36rpx;
 			font-weight: 500;
 		}
 	}
-	
-	.num-page{
+
+	.num-page {
 		display: flex;
-		border:15rpx solid #f0f3f8 ;
+		border: 15rpx solid #f0f3f8;
 		border-left: none;
 		border-right: none;
 		padding: 25rpx;
-		view:first-child{
+
+		view:first-child {
 			margin-right: 30rpx;
 		}
-		span{
+
+		span {
 			margin-left: 10rpx;
 		}
 	}
-	
-	.comment-list{
+
+	.comment-list {
 		padding: 0 25rpx;
 	}
-	
-	.bottom{
+
+	.bottom {
 		height: 100rpx;
 	}
 
@@ -254,15 +271,16 @@
 		position: fixed;
 		bottom: 0;
 		left: 0;
-		box-shadow: 0rpx -5rpx 5rpx #f3f6fa ;
-		.input{
+		box-shadow: 0rpx -5rpx 5rpx #f3f6fa;
+
+		.input {
 			display: flex;
 			padding: 0 20rpx;
 			align-items: center;
-			background-color:#f0f3f8 ;
+			background-color: #f0f3f8;
 			border-radius: 10rpx;
 			flex: 2;
-			
+
 		}
 
 		.btn-item {

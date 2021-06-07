@@ -1,12 +1,12 @@
 <template>
 	<view class="page">
-		<view class="top">
+		<view class="top" @click="toEdit">
 			<u-avatar :src="$baseurl+ user.avatar"></u-avatar>
 			<view class="nick-name">{{user.nickName}}</view>
 		</view>
 		<view class="back">
 			<view class="user-count">
-				<view class="count-item">
+				<view class="count-item" @click="toUserDynamic">
 					<view class="count">{{dynamic.count}}</view>
 					<view class="text">动态</view>
 				</view>
@@ -60,11 +60,11 @@
 				historyList: null,
 				queryDynamic: {
 					page: 1,
-					count: 20
+					count: 0
 				},
 				queryComment: {
 					page: 1,
-					count: 20,
+					count: 0,
 					userId: ''
 				},
 				dynamic: {
@@ -102,9 +102,14 @@
 		},
 		methods: {
 			toDynamic(item) {
-				datas.dynamicDetail = item.data
+				console.log(item)
 				uni.navigateTo({
-					url: "/pages/dynamic/dynamic"
+					url:"/pages/dynamic/dynamic?id="+item.data.id
+				})
+			},
+			toUserDynamic(){
+				uni.navigateTo({
+					url:"/pages/user/userDynamic/userDynamic?userId="+this.user.id
 				})
 			},
 			toMore() {
@@ -116,6 +121,11 @@
 				uni.clearStorageSync()
 				uni.reLaunch({
 					url: "/pages/start/start"
+				})
+			},
+			toEdit(){
+				uni.navigateTo({
+					url:'/pages/user/userEdit/userEdit'
 				})
 			}
 		}
