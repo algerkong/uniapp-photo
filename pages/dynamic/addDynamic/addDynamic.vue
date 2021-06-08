@@ -23,6 +23,7 @@
 				<u-upload ref="uUpload" :action="action" :file-list="fileList" :formData="imgFormData" max-count="9" del-bg-color="#b5b5b5" :auto-upload="false"></u-upload>
 			</view>
 		</view>
+		<u-toast ref="uToast" />
 	</view>
 </template>
 
@@ -47,6 +48,7 @@ export default {
 		};
 	},
 	mounted() {
+		this.isUp=false
 		this.action = this.$baseurl + '/api/upload';
 		let userId = uni.getStorageSync('user').id;
 		this.dynamic.userId = userId;
@@ -55,10 +57,11 @@ export default {
 	watch: {
 		isUp(newIs, oldIs) {
 			if (newIs) {
-				let pages = getCurrentPages();
-				let prevPage = pages[pages.length - 2]; //上一页页面实例
-				// console.log(prevPage,"prevPage");
-				prevPage.$vm.start()
+				// let pages = getCurrentPages();
+				// let prevPage = pages[pages.length - 2]; //上一页页面实例
+				// // console.log(prevPage,"prevPage");
+				// prevPage.onLoad();
+				uni.$emit('refreshData');
 				uni.navigateBack();
 			}
 		}
@@ -70,6 +73,24 @@ export default {
 			}
 			if (this.$refs.uUpload.lists.length == 0) {
 				this.dynamic.isImg = 0;
+			}
+			if(this.dynamic.title==""||this.dynamic.title==null){
+				this.$refs.uToast.show({
+					title: "请输入标题",
+					type: 'error',
+					icon: true,
+					position: "top"
+				})
+				return
+			}
+			if(this.dynamic.content==""||this.dynamic.content==null){
+				this.$refs.uToast.show({
+					title: "请输入内容",
+					type: 'error',
+					icon: true,
+					position: "top"
+				})
+				return
 			}
 			await addDynamic(this.dynamic).then(res => {
 				this.imgFormData.dynamicId = res.data.data.id;

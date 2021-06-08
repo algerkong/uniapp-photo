@@ -13,6 +13,11 @@ export function getIdDynamic(id){
 	}})
 }
 
+//删除动态
+export function delDynamic(id){
+	return request.delete('/api/dynamic/'+id)
+}
+
 
 export function addDynamic(data){
 	return request.post('/api/dynamic',data)

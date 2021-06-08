@@ -85,7 +85,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
             
         }
@@ -153,6 +153,15 @@
         }
         ,{
             "path" : "pages/user/userDynamic/userDynamic",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/order/addOrder/addOrder",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",

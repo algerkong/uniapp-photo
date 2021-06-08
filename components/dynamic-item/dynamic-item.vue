@@ -1,6 +1,6 @@
 <template>
-	<view class="dynamic" @click="toDynamic">
-		<view class="dynamic-top">
+	<view class="dynamic" @click="toDynamic"  @longpress="isDel = true" v-if="del">
+		<view class="dynamic-top" @click.stop="toUserDynamic(dynamic.user.id)">
 			<u-image width="70rpx" height="70rpx" mode="aspectFill" :src="$baseurl + dynamic.user.avatar"
 				shape="circle"></u-image>
 			<view class="user-text">
@@ -44,6 +44,9 @@
 				</view>
 			</view>
 		</view>
+		
+		<!-- <u-modal v-if="userId == dynamic.userId" v-model="isDel" :show-cancel-button="true" :content="content" @confirm="deleteDynamic"></u-modal> -->
+		<!-- <u-toast ref="uToast" /> -->
 	</view>
 </template>
 
@@ -54,7 +57,8 @@
 		getIsPraise,
 		giveLike,
 		addComment,
-		getComment
+		getComment,
+		delDynamic
 	} from '@/api/dynamic.js'
 	export default {
 		name: "dynamic-item",
@@ -69,7 +73,11 @@
 					"padding": "0 0 10rpx 0",
 					"height": "216rpx"
 				},
-				is:false
+				is:false,
+				isDel:false,
+				userId:'',
+				content:"确定要删除动态吗",
+				del:true
 			};
 		},
 		props: {
@@ -84,6 +92,7 @@
 			})
 			
 			let userId = uni.getStorageSync('user').id
+			this.userId = userId
 			getIsPraise({
 				userId: userId,
 				dynamicId: this.dynamic.id
@@ -104,6 +113,22 @@
 			}
 		},
 		methods:{
+			toUserDynamic(id){
+				uni.navigateTo({
+					url:"/pages/user/userDynamic/userDynamic?userId="+id
+				})
+			},
+			deleteDynamic(){
+				delDynamic(this.dynamic.id).then(res=>{
+					this.$refs.uToast.show({
+						title: "删除成功",
+						type: 'success',
+						icon: true,
+						position: "top"
+					})
+					this.del = false
+				})
+			},
 			showImgs(index){
 				uni.previewImage({
 					urls:this.imgs,

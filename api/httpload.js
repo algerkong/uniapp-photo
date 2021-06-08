@@ -13,6 +13,11 @@ http.interceptors.request.use((config) => { // 可使用async await 做异步操
 	if (token!=null&&token!=""&&token!=undefined) {
 		config.header.token = token;
 	}
+	
+	config.header = {
+		...config.header,
+		'Access-Control-Allow-Origin': '*', 
+	}
 
 	if (config.method === 'POST') {
 		config.data = JSON.stringify(config.data);

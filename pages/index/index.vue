@@ -10,7 +10,7 @@
 						<view class="new-img" @click="showImgs(index)">
 							<u-image height="100%" mode="aspectFill" :src="$baseurl + item.imgs[0].src" />
 						</view>
-						<view class="new-user">
+						<view class="new-user" @click="toDynamic(item)">
 							<u-image width="70rpx" height="70rpx" mode="aspectFill" :src="$baseurl + item.user.avatar"
 								shape="circle"></u-image>
 							<view class="new-user-text">
@@ -68,7 +68,7 @@
 			return {
 				query: {
 					page: 1,
-					count: 10
+					count: 6
 				},
 				dayList: null,
 
@@ -76,7 +76,7 @@
 				flowList: [],
 				queryImg: {
 					page: 0,
-					count: 10
+					count: 8
 				},
 				list: [],
 				loading: false
@@ -106,11 +106,11 @@
 		},
 		methods: {
 			getList() {
-				// this.loading = true
+				this.loading = true
 				getDayDynamic(this.query).then(res => {
 					this.dayList = res.data.data.list
 
-					// this.loading = false
+					this.loading = false
 				})
 			},
 			showImgs(index) {
@@ -170,6 +170,11 @@
 				datas.dynamicDetail = item
 				uni.navigateTo({
 					url: "./dynamic-full/dynamic-full"
+				})
+			},
+			toDynamic(item){
+				uni.navigateTo({
+					url:"/pages/dynamic/dynamic?id="+item.id
 				})
 			}
 		}

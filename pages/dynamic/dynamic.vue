@@ -1,7 +1,13 @@
 <template>
 	<view class="page">
-		<u-navbar back-text="动态"></u-navbar>
-		<view class="dynamic">
+		<u-navbar back-text="动态">
+			<slot name="right">
+				<view class="btnAdd">
+					<u-icon class="btn" @click="isDel=true" name="more-dot-fill"></u-icon>
+				</view>
+			</slot>
+		</u-navbar>
+		<view class="dynamic" v-if="dynamic">
 			<view class="dynamic-top">
 				<u-image width="70rpx" height="70rpx" mode="aspectFill" :src="$baseurl + dynamic.user.avatar"
 					shape="circle"></u-image>
@@ -61,6 +67,17 @@
 					</view>
 				</view>
 			</view>
+			<u-mask :show="loading">
+				<view class="warp">
+					<u-loading mode="circle" size="50"></u-loading>
+				</view>
+			</u-mask>
+			<u-modal v-if="userId == dynamic.userId" v-model="isDel" :show-cancel-button="true" :content="content" @confirm="deleteDynamic"></u-modal>
+			<u-toast ref="uToast" />
+		</view>
+		<view class="none-dynamic" v-else>
+			<image src="../../static/none.svg" mode=""></image>
+			<view>该动态不存在</view>
 		</view>
 	</view>
 </template>
@@ -73,17 +90,18 @@
 		giveLike,
 		addComment,
 		getComment,
-		getIdDynamic
+		getIdDynamic,
+		delDynamic
 	} from '@/api/dynamic.js'
 	export default {
 		data() {
 			return {
 				dynamic: {
-					user:{
+					user: {
 						avatar: ''
 					},
-					praises:[],
-					comments:[]
+					praises: [],
+					comments: [],
 				},
 				imgStyle: {
 					"padding": "0 10rpx 10rpx 0",
@@ -95,15 +113,27 @@
 				},
 				is: false,
 				imgs: [],
-				commentValue: ''
+				commentValue: '',
+				loading: false,
+				userId:'',
+				isDel:false,
+				content:'你确定要删除此动态吗？'
 			};
 		},
 		async onLoad(option) {
 			let id = option.id
+			this.loading = true
+			//获取动态
 			await getIdDynamic(id).then(res => {
 				this.dynamic = res.data.body
 			})
 			
+			if(this.dynamic == null){
+				this.loading = false
+				return
+			}
+
+			//将动态添加到历史记录中
 			let dynamicHistoryList = uni.getStorageSync('history')
 			if (!dynamicHistoryList.length) {
 				dynamicHistoryList = []
@@ -117,25 +147,32 @@
 				data: dynamicHistoryList
 			})
 
+			//将图片遍历添加 点击显示大图时用
 			this.dynamic.imgs.forEach(e => {
 				this.imgs.push(this.$baseurl + e.src)
 			})
 
+
 			let userId = uni.getStorageSync('user').id
+			this.userId = userId
 			getIsPraise({
 				userId: userId,
 				dynamicId: this.dynamic.id
 			}).then(res => {
 				this.is = res.data.isPraise
 			})
+			this.loading = false
 		},
 		methods: {
+			// 点击显示大图
 			showImgs(index) {
 				uni.previewImage({
 					urls: this.imgs,
 					current: index
 				})
 			},
+
+			// 给动态点赞
 			praiseDynamic() {
 				let data = {
 					userId: uni.getStorageSync('user').id,
@@ -151,6 +188,22 @@
 					}
 				})
 			},
+
+			async deleteDynamic() {
+				await delDynamic(this.dynamic.id).then(res => {
+					 this.$refs.uToast.show({
+						title: "删除成功",
+						type: 'success',
+						icon: true,
+						position: "top"
+					})
+					this.del = false
+				})
+				uni.$emit('refreshData');
+				uni.navigateBack()
+			},
+
+			// 发送评论
 			sendComment() {
 				if (this.commentValue == "")
 					return
@@ -175,11 +228,37 @@
 </script>
 
 <style lang="scss" scoped>
+	.btnAdd {
+		flex: 1;
+
+		.btn {
+			float: right;
+			margin-right: 30rpx;
+		}
+	}
+
+	.warp {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+	}
+
 	.dynamic {
 		background-color: #FFFFFF;
 		padding: 25rpx 0;
 		margin-bottom: 20rpx;
 		border-radius: 10rpx;
+	}
+	
+	.none-dynamic {
+		min-height: 80vh;
+		margin: 0 auto;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		font-size: 36rpx;
 	}
 
 	.img-list {

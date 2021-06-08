@@ -1,6 +1,6 @@
 <template>
 	<view class="page">
-		<u-navbar back-text="用户动态"></u-navbar>
+		<u-navbar :back-text="dynamicList[0].user.nickName+'的动态'"></u-navbar>
 		<scroll-view class="scroll-view" scroll-y style="height: 100%;width: 100%;" @scrolltolower="onreachBottom">
 
 			<dynamic-item v-for="(item,index) in dynamicList" :dynamic="item"></dynamic-item>
@@ -45,7 +45,6 @@
 			this.userId = option.userId
 			console.log(this.userId,"userid");
 			this.getDynamic()
-			
 		},
 		methods: {
 			getDynamic(id) {
@@ -57,6 +56,8 @@
 				})
 			},
 			async onreachBottom() {
+				
+				console.log('加载中');
 				this.loadStatus = '加载中...';
 				if (this.loadStatus == '没有更多了') {
 					return;
@@ -83,7 +84,7 @@
 		padding: 0 20rpx;
 		box-sizing: border-box;
 		background-color: #f9f9f9;
-		min-height: 100vh;
+		height: 100vh;
 	}
 
 	.warp {

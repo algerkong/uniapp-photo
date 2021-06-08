@@ -25,7 +25,7 @@
 				</view>
 			</view>
 			<view class="history-list">
-				<view class="history-item" v-for="item in historyList" v-if="item.data.user" @click="toDynamic(item)">
+				<view class="history-item" v-for="item in historyList" v-if="item.data" @click="toDynamic(item)">
 					<u-avatar size="60" :src="$baseurl + item.data.user.avatar"></u-avatar>
 					<view class="content">
 						<view class="user-top">
