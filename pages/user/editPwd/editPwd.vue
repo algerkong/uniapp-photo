@@ -5,7 +5,7 @@
 		<u-input class="input" v-model="password.oldText" type="password" placeholder="原密码" />
 		<u-input class="input" v-model="password.newText1" type="password" placeholder="新密码" />
 		<u-input class="input" v-model="password.newText2" type="password" placeholder="确认密码" />
-		<u-button class="input button" :ripple="true" ripple-bg-color="#999999" @click="show = true">确认修改</u-button>
+		<u-button class="button" :ripple="true" ripple-bg-color="#999999" @click="show = true" type="primary" >确认修改</u-button>
 		<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="submit"></u-modal>
 		<u-toast ref="uToast" />
 	</view>
@@ -77,10 +77,14 @@
 	}
 
 	.input {
-		margin-bottom: 30rpx;
+		margin-top: 30rpx;
 		background-color: #FFFFFF;
 		padding: 0 20rpx !important;
 		border-radius: 10rpx;
 		overflow: hidden;
+	}
+	
+	.button{
+		margin-top: 30rpx;
 	}
 </style>

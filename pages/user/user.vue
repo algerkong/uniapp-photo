@@ -38,8 +38,8 @@
 			</view>
 		</view>
 
-		<view>
-			<u-button @click="show = true">退出登陆</u-button>
+		<view class="btn-logout">
+			<u-button @click="show = true" type="error">退出登陆</u-button>
 		</view>
 		<view class="bottom"></view>
 		<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="logout"></u-modal>
@@ -238,6 +238,10 @@
 				}
 			}
 		}
+	}
+	
+	.btn-logout{
+		padding: 20rpx;
 	}
 	
 </style>

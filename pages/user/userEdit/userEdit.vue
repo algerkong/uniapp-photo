@@ -3,7 +3,7 @@
 		<u-navbar back-text="个人信息">
 			<slot name="right">
 				<view class="btnAdd">
-					<u-button class="btn" @click="submit">修改</u-button>
+					<u-button class="btn" >修改</u-button>
 				</view>
 			</slot>
 		</u-navbar>
@@ -14,9 +14,11 @@
 		<u-input class="input user" v-model="user.username" type="text" :disabled="true" />
 		<u-input class="input" v-model="user.nickName" type="text" placeholder="输入昵称" />
 		<u-input class="input" v-model="gender.label" type="select" @click="isSelect = true" placeholder="选择性别" />
-		<u-button class="input button" :ripple="true" ripple-bg-color="#999999" @click="toPwd">修改密码</u-button>
+		<u-button type="primary" class="button" :ripple="true" ripple-bg-color="#999999" @click="submit">修改信息</u-button>
+		<u-button type="primary" class="button" :ripple="true" ripple-bg-color="#999999" @click="toPwd">修改密码</u-button>
 
 		<u-select v-model="isSelect" :list="selectGender" @confirm="confirm"></u-select>
+		<u-toast ref="uToast" />
 	</view>
 </template>
 
@@ -78,6 +80,12 @@
 				}
 				editUser(this.user.id,user).then(res=>{
 					uni.setStorageSync('user',this.user)
+					this.$refs.uToast.show({
+						title: "修改成功",
+						type: 'success',
+						icon: true,
+						position: "bottom"
+					})
 				})
 			},
 			chooseAvatar() {
@@ -124,6 +132,10 @@
 		padding: 0 20rpx !important;
 		border-radius: 10rpx;
 		overflow: hidden;
+	}
+	
+	.button{
+		margin-bottom: 30rpx;
 	}
 
 	.user {

@@ -7,7 +7,7 @@
 		</u-navbar>
 		<view class="input-page">
 			<view class="title"><u-input v-model="order.title" type="text" placeholder="标题" /></view>
-			<view class="title"><u-input v-model="order.tag" type="text" placeholder="标签" /></view>
+			<view class="title"><u-input maxlength="4" v-model="order.tag" type="text" placeholder="标签" /></view>
 			<view class="title"><u-input v-model="order.price" type="number" placeholder="价格" /></view>
 			<u-input class="title" v-model="orderIs" type="select" @click="isSelect = true" placeholder="选择类型" />
 			<view class="content">
@@ -65,11 +65,8 @@ export default {
 	watch: {
 		isUp(newIs, oldIs) {
 			if (newIs) {
-				let pages = getCurrentPages();
-				let prevPage = pages[pages.length - 2]; //上一页页面实例
-				// console.log(prevPage,"prevPage");
-				prevPage.$vm.start()
-				uni.navigateBack();
+				uni.$emit('refreshOrder');
+				uni.navigateBack()
 			}
 		}
 	},

@@ -7,26 +7,24 @@
 				</view>
 			</slot>
 		</u-navbar>
+		<u-swiper :list="bannerList" height="350" :effect3d="true" indicator-pos="bottomRight" border-radius="10"></u-swiper>
 		<view class="img-list-title"> 最新订单 </view>
 		<u-waterfall v-model="flowList" ref="uWaterfall">
 			<template v-slot:left="{leftList}">
 				<view class="demo-warter-l" v-for="(item, index) in leftList" :key="index" @click="toOrder(item)"
 					v-if="item.imgs[0]">
-					<!-- 警告：微信小程序中需要hx2.8.11版本才支持在template中结合其他组件，比如下方的lazy-load组件 -->
-					<u-lazy-load class="img" threshold="-800" :image="$baseurl+item.imgs[0].src" :index="index"/>
-					<view class="title">{{item.title}}</view>
+					<order-item :item="item"></order-item>
 				</view>
 			</template>
 			<template v-slot:right="{rightList}">
 				<view class="demo-warter-r" v-for="(item, index) in rightList" :key="index" @click="toOrder(item)"
 					v-if="item.imgs[0]">
-					<u-lazy-load class="img" threshold="-800" :image="$baseurl+item.imgs[0].src" :index="index"/>
-					<view class="title">{{item.title}}</view>
+					<order-item :item="item"></order-item>
 				</view>
 			</template>
 		</u-waterfall>
+		<view class="bottom"></view>
 		<u-loadmore :status="loadStatus" @loadmore="addRandomData"></u-loadmore>
-
 		<u-no-network></u-no-network>
 		<view class="bottom"></view>
 		<u-tabbar :list="$store.state.tabbar" :mid-button="true"></u-tabbar>
@@ -37,6 +35,8 @@
 	import {
 		getOrder
 	} from '@/api/order.js';
+	import api from '@/api/api.js'
+	import orderItem from '@/components/order-item/order-item.vue'
 	export default {
 		data() {
 			return {
@@ -46,15 +46,41 @@
 				},
 				flowList: [],
 				loadStatus: 'loadmore',
+				bannerList:[],
+				bannerPage:{
+					page:1,
+					count:5
+				}
 			};
+		},
+		components:{
+			orderItem
 		},
 		onLoad() {
 			this.getList()
+			this.getBanner()
+			let that = this
+			uni.$on('refreshOrder', () => {
+				this.getList()
+			})
+		},
+		async onReachBottom() {
+			this.loadStatus = 'loading';
+			// 数据加载
+			await this.addRandomData();
+			this.loadStatus = 'loadmore';
 		},
 		methods: {
 			addRandomData() {
 				this.loadStatus = 'loading'
 				this.getList()
+			},
+			getBanner(){
+				api.getData('/api/banner',this.bannerPage).then(res=>{
+					res.data.data.list.forEach(e=>{
+						this.bannerList.push(this.$baseurl + e.src)
+					})
+				})
 			},
 			getList() {
 				this.query.page += 1
@@ -63,7 +89,7 @@
 					this.loadStatus = 'loadmore'
 					if (res.data.data.list.length == 0) {
 						this.loadStatus = "nomore"
-						this.queryImg.page -= 1
+						this.query.page -= 1
 					}
 				})
 			},
@@ -76,7 +102,7 @@
 
 <style lang="scss">
 	.page {
-		padding: 30rpx;
+		padding: 20rpx;
 		background-color: #F2F1F6;
 	}
 
@@ -112,9 +138,5 @@
 		position: relative;
 		overflow: hidden;
 		border-radius: 10rpx !important;
-	}
-
-	.demo-image {
-		width: 100%;
 	}
 </style>
