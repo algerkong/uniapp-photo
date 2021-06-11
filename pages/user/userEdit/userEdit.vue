@@ -1,12 +1,6 @@
 <template>
 	<view class="page">
-		<u-navbar back-text="个人信息">
-			<slot name="right">
-				<view class="btnAdd">
-					<u-button class="btn" >修改</u-button>
-				</view>
-			</slot>
-		</u-navbar>
+		<u-navbar back-text="个人信息"></u-navbar>
 		<view class="avatar"  @click="chooseAvatar">
 			<u-avatar :src="$baseurl+ user.avatar" mode="square" size="120"></u-avatar>
 		</view>

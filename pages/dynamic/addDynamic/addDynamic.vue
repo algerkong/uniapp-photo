@@ -1,9 +1,9 @@
 <template>
 	<view class="page">
 		<u-navbar back-text="发布动态">
-			<slot name="right">
-				<view class="btnAdd"><u-button class="btn" @click="submit">发布</u-button></view>
-			</slot>
+			<template v-slot:right>
+				<u-button class="btnAdd" @click="submit">发布</u-button>
+			</template>
 		</u-navbar>
 		<view class="check-tag" @click="toTag">
 			<view class="icon" v-if="tagimg == ''"><u-icon name="plus"></u-icon></view>
@@ -48,7 +48,7 @@ export default {
 		};
 	},
 	mounted() {
-		this.isUp=false
+		this.isUp = false;
 		this.action = this.$baseurl + '/api/upload';
 		let userId = uni.getStorageSync('user').id;
 		this.dynamic.userId = userId;
@@ -74,23 +74,23 @@ export default {
 			if (this.$refs.uUpload.lists.length == 0) {
 				this.dynamic.isImg = 0;
 			}
-			if(this.dynamic.title==""||this.dynamic.title==null){
+			if (this.dynamic.title == '' || this.dynamic.title == null) {
 				this.$refs.uToast.show({
-					title: "请输入标题",
+					title: '请输入标题',
 					type: 'error',
 					icon: true,
-					position: "top"
-				})
-				return
+					position: 'top'
+				});
+				return;
 			}
-			if(this.dynamic.content==""||this.dynamic.content==null){
+			if (this.dynamic.content == '' || this.dynamic.content == null) {
 				this.$refs.uToast.show({
-					title: "请输入内容",
+					title: '请输入内容',
 					type: 'error',
 					icon: true,
-					position: "top"
-				})
-				return
+					position: 'top'
+				});
+				return;
 			}
 			await addDynamic(this.dynamic).then(res => {
 				this.imgFormData.dynamicId = res.data.data.id;
@@ -114,14 +114,9 @@ export default {
 }
 
 .btnAdd {
-	flex: 1;
-
-	.btn {
-		float: right;
-		height: 60rpx;
-		font-size: 28rpx;
-		margin-right: 30rpx;
-	}
+	height: 60rpx;
+	font-size: 28rpx;
+	margin-right: 30rpx;
 }
 
 .img {

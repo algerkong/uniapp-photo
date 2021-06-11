@@ -1,18 +1,16 @@
 <template>
 	<view class="page">
 		<u-navbar back-text="发布订单">
-			<slot name="right">
-				<view class="btnAdd"><u-button class="btn" @click="submit">发布</u-button></view>
-			</slot>
+			<template v-slot:right>
+				<u-button class="btnAdd" @click="submit">发布</u-button>
+			</template>
 		</u-navbar>
 		<view class="input-page">
 			<view class="title"><u-input v-model="order.title" type="text" placeholder="标题" /></view>
 			<view class="title"><u-input maxlength="4" v-model="order.tag" type="text" placeholder="标签" /></view>
 			<view class="title"><u-input v-model="order.price" type="number" placeholder="价格" /></view>
 			<u-input class="title" v-model="orderIs" type="select" @click="isSelect = true" placeholder="选择类型" />
-			<view class="content">
-				<u-input class="content-input" v-model="order.content" type="textarea" maxlength="10000" placeholder="写下你的需求..." :clearable="false" />
-			</view>
+			<view class="content"><u-input class="content-input" v-model="order.content" type="textarea" maxlength="10000" placeholder="写下你的需求..." :clearable="false" /></view>
 			<view class="img-page">
 				<u-upload ref="uUpload" :action="action" :file-list="fileList" :formData="imgFormData" max-count="9" del-bg-color="#b5b5b5" :auto-upload="false"></u-upload>
 			</view>
@@ -40,10 +38,10 @@ export default {
 				orderId: ''
 			},
 			isUp: false,
-			orderIs:'发订单',
-			isSelect:false,
-			selectIs:[
-				 {
+			orderIs: '发订单',
+			isSelect: false,
+			selectIs: [
+				{
 					value: 0,
 					label: '发订单'
 				},
@@ -55,61 +53,61 @@ export default {
 		};
 	},
 	mounted() {
-		this.isUp=false
+		this.isUp = false;
 		this.action = this.$baseurl + '/api/upload';
 		let userId = uni.getStorageSync('user').id;
 		this.order.userId = userId;
-		this.order.status = 0
+		this.order.status = 0;
 		this.imgFormData.userId = userId;
 	},
 	watch: {
 		isUp(newIs, oldIs) {
 			if (newIs) {
 				uni.$emit('refreshOrder');
-				uni.navigateBack()
+				uni.navigateBack();
 			}
 		}
 	},
 	methods: {
 		confirm(e) {
-			this.order.is = e[0].value
-			this.orderIs = e[0].label
+			this.order.is = e[0].value;
+			this.orderIs = e[0].label;
 		},
 		async submit() {
-			if(this.order.title==""||this.order.title==null){
+			if (this.order.title == '' || this.order.title == null) {
 				this.$refs.uToast.show({
-					title: "请输入标题",
+					title: '请输入标题',
 					type: 'error',
 					icon: true,
-					position: "top"
-				})
-				return
+					position: 'top'
+				});
+				return;
 			}
-			if(this.order.content==""||this.order.content==null){
+			if (this.order.content == '' || this.order.content == null) {
 				this.$refs.uToast.show({
-					title: "请输入内容",
+					title: '请输入内容',
 					type: 'error',
 					icon: true,
-					position: "top"
-				})
-				return
+					position: 'top'
+				});
+				return;
 			}
-			
-			if(this.order.is==null){
-				this.order.is = 0
+
+			if (this.order.is == null) {
+				this.order.is = 0;
 			}
 			if (this.$refs.uUpload.lists.length == 0) {
 				this.$refs.uToast.show({
-					title: "请添加至少一张图片",
+					title: '请添加至少一张图片',
 					type: 'error',
 					icon: true,
-					position: "top"
-				})
-				return
+					position: 'top'
+				});
+				return;
 			}
-			
-			console.log(this.order,'this.order');
-			
+
+			console.log(this.order, 'this.order');
+
 			await addOrder(this.order).then(res => {
 				this.imgFormData.orderId = res.data.data.id;
 				this.$refs.uUpload.upload();
@@ -127,14 +125,9 @@ export default {
 }
 
 .btnAdd {
-	flex: 1;
-
-	.btn {
-		float: right;
-		height: 60rpx;
-		font-size: 28rpx;
-		margin-right: 30rpx;
-	}
+	height: 60rpx;
+	font-size: 28rpx;
+	margin-right: 30rpx;
 }
 
 .img {

@@ -1,11 +1,9 @@
 <template>
 	<view class="page">
 		<u-navbar back-text="动态">
-			<slot name="right">
-				<view class="btnAdd">
-					<u-icon class="btn" @click="isDel=true" name="more-dot-fill"></u-icon>
-				</view>
-			</slot>
+			<template v-slot:right>
+				<u-icon class="btnDel" @click="isDel = true" name="more-dot-fill"></u-icon>
+			</template>
 		</u-navbar>
 		<view class="dynamic" v-if="dynamic">
 			<view class="dynamic-top">
@@ -228,15 +226,9 @@
 </script>
 
 <style lang="scss" scoped>
-	.btnAdd {
-		flex: 1;
-
-		.btn {
-			float: right;
-			margin-right: 30rpx;
-		}
+	.btnDel {
+		margin-right: 30rpx;
 	}
-
 	.warp {
 		display: flex;
 		align-items: center;

@@ -61,7 +61,22 @@
 			this.getBanner()
 			let that = this
 			uni.$on('refreshOrder', () => {
-				this.getList()
+				this.$refs.uWaterfall.clear();
+				that.query = {
+					page: 0,
+					count: 8
+				}
+				that.flowList = []
+				that.query.page += 1
+				getOrder(that.query).then(res => {
+					that.flowList = that.flowList.concat(res.data.data.list)
+					
+					that.loadStatus = 'loadmore'
+					if (res.data.data.list.length == 0) {
+						that.loadStatus = "nomore"
+						that.query.page -= 1
+					}
+				})
 			})
 		},
 		async onReachBottom() {
