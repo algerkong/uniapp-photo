@@ -4,11 +4,6 @@
 			<template v-slot:right>
 				<u-icon class="btnDel" @click="isDel = true" name="more-dot-fill"></u-icon>
 			</template>
-<!-- 			<slot name="right">
-				<view class="btnAdd">
-					
-				</view>
-			</slot> -->
 		</u-navbar>
 		<view class="content" v-if="order">
 			<view class="content-top">
@@ -37,7 +32,7 @@
 					<image class="img" v-for="(item,index) in order.imgs" :key="index" :src="$baseurl + item.src" mode="widthFix" @click="showImgs(index)"></image>
 				</view>
 			</view>
-			<view class="btn-page">
+			<view class="btn-page" @click="receiveorder">
 				<view class="btn">
 					接收订单
 				</view>
@@ -58,6 +53,7 @@
 
 <script>
 	import {getIdOrder} from '@/api/order.js'
+	import {addReceiveorder} from '@/api/receiveorder.js'
 export default {
 	data() {
 		return {
@@ -84,6 +80,15 @@ export default {
 				current: index,
 				urls: urls,
 				indicator: "number"
+			})
+		},
+		receiveorder(){
+			let data = {
+				userId:uni.getStorageSync('user').id,
+				orderId:this.order.id
+			}
+			addReceiveorder(data).then(res=>{
+				console.log(res)
 			})
 		}
 	}
